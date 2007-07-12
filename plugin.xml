@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+	
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Blog Action Set"
+            visible="true"
+            id="AfaeEditorBlogger.actionSet">
+         <menu
+               label="&amp;Blogging"
+               id="bloggingMenu">
+            <separator
+                  name="sampleGroup">
+            </separator>
+         </menu>
+         <action
+               label="&amp;Post to Blog"
+               icon="icons/post.gif"
+               class="afaeeditorblogger.actions.PostAction"
+			   tooltip="Post to Blog"
+               menubarPath="bloggingMenu/bloggingGroup"
+               toolbarPath="bloggingGroup"
+               id="afaeeditorblogger.actions.PostToBlogAction">
+         </action>
+      </actionSet>
+   </extension>
+   
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml">
+      </toc>
+      <toc
+            file="testToc.xml"
+            primary="true">
+      </toc>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="Blog Posting"
+            id="AfaeEditorBlogger">
+      </category>
+      <wizard
+            name="New Post"
+            icon="icons/post.gif"
+            category="AfaeEditorBlogger"
+            class="afaeeditorblogger.wizards.NewBlogPostWizard"
+            id="afaeeditorblogger.wizards.NewBlogPostWizard">
+      </wizard>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFile"
+            nameFilter="plugin.xml"
+            id="AfaeEditorBlogger.contribution1">
+         <menu
+               label="New Submenu"
+               path="additions"
+               id="AfaeEditorBlogger.menu1">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               label="New Action"
+               class="afaeeditorblogger.popup.actions.NewAction"
+               menubarPath="AfaeEditorBlogger.menu1/group1"
+               enablesFor="1"
+               id="AfaeEditorBlogger.newAction">
+         </action>
+      </objectContribution>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            name="Blogging Preferences"
+            class="afaeeditorblogger.preferences.BloggingPreferencePage"
+            id="afaeeditorblogger.preferences.BloggingPreferencePage">
+      </page>
+   </extension>
+   
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="afaeeditorblogger.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Afae Blogging"
+            id="AfaeEditorBlogger">
+      </category>
+      <view
+            name="Entries View"
+            icon="icons/list.gif"
+            category="AfaeEditorBlogger"
+            class="afaeeditorblogger.views.PostingView"
+            id="afaeeditorblogger.views.PostingView">
+      </view>
+      <view
+            category="AfaeEditorBlogger"
+            class="afaeeditorblogger.views.FileUploadView"
+            icon="icons/upload.gif"
+            id="AfaeEditorBlogger.views.FileUploadView"
+            name="File Uploader"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.ui.resourcePerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.views.TaskList"
+               relationship="right"
+               id="afaeeditorblogger.views.SampleView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+
+</plugin>

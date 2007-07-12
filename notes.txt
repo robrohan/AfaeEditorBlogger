@@ -1,0 +1,109 @@
+*** metaWeblog.getRecentPosts ***
+Description: Returns a list of the most recent posts in the system.
+Parameters: 
+	String blogid, 
+	String username, 
+	String password, 
+	int numberOfPosts
+
+Return value: 
+	on success, array of structs containing 
+		ISO.8601 dateCreated, 
+		String userid, 
+		String postid, 
+		String description, 
+		String title, 
+		String link, 
+		String permaLink, 
+		String mt_excerpt, 
+		String mt_text_more, 
+		int mt_allow_comments, 
+		int mt_allow_pings, 
+		String mt_convert_breaks, 
+		String mt_keywords; 
+	on failure, fault
+
+Notes: dateCreated is in the timezone of the weblog blogid; link and permaLink are the URL pointing to the archived post
+
+**************************************
+
+*** metaWeblog.getPost ***
+
+Description: Returns information about a specific post.
+Parameters: 
+	String postid, 
+	String username, 
+	String password
+
+Return value: 
+	on success, struct containing 
+		String userid, 
+		ISO.8601 dateCreated, 
+		String postid, 
+		String description, 
+		String title, 
+		String link, 
+		String permaLink, 
+		String mt_excerpt, 
+		String mt_text_more, 
+		int mt_allow_comments, 
+		int mt_allow_pings, 
+		String mt_convert_breaks, 
+		String mt_keywords; 
+	on failure, fault
+
+Notes: link and permaLink are both the URL pointing to the archived post. The fields prefixed with mt_ are 
+Movable Type extensions to the metaWeblog.getPost API.
+
+***************************************
+
+*** metaWeblog.newPost ***
+
+Description: Creates a new post, and optionally publishes it.
+Parameters: 
+	String blogid, 
+	String username, 
+	String password, 
+	struct content, 
+	boolean publish
+
+Return value: 
+	on success, 
+		String postid of new post
+	on failure, fault
+
+Notes: the struct content can contain the following standard keys: 
+	title, for the title of the entry; 
+	description, for the body of the entry; 
+	dateCreated, to set the created-on date of the entry. 
+	
+In addition, Movable Type's implementation allows you to pass in values for five other keys: 
+	int mt_allow_comments, the value for the allow_comments field; 
+	int mt_allow_pings, the value for the allow_pings field; 
+	String mt_convert_breaks, the value for the convert_breaks field; 
+	String mt_text_more, the value for the additional entry text; 
+	String mt_excerpt, the value for the excerpt field; 
+	String mt_keywords, the value for the keywords field; 
+	array mt_tb_ping_urls, the list of TrackBack ping URLs for this entry. 
+
+If specified, dateCreated should be in ISO.8601 format.
+
+***************************************
+
+*** metaWeblog.editPost ***
+
+Description: Updates information about an existing post.
+Parameters: 
+	String postid, 
+	String username, 
+	String password, 
+	struct content, 
+	boolean publish
+
+Return value: 
+	on success, 
+		boolean true value; 
+	on failure, fault
+
+Notes: the struct content can contain the following standard keys: title, for the title of the entry; description, for the body of the entry; and dateCreated, to set the created-on date of the entry. In addition, Movable Type's implementation allows you to pass in values for five other keys: int mt_allow_comments, the value for the allow_comments field; int mt_allow_pings, the value for the allow_pings field; String mt_convert_breaks, the value for the convert_breaks field; String mt_text_more, the value for the additional entry text; String mt_excerpt, the value for the excerpt field; String mt_keywords, the value for the keywords field; and array mt_tb_ping_urls, the list of TrackBack ping URLs for this entry. If specified, dateCreated should be in ISO.8601 format.
+

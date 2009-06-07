@@ -32,7 +32,7 @@ public class FileUploadDropAdapter extends ViewerDropAdapter {
 
 		if (supported_types == null) {
 			supported_types = new HashMap<String, String>();
-			/////// IMAGES
+			// ///// IMAGES
 			supported_types.put("gif", "image/gif");
 			supported_types.put("jpe", "image/jpeg");
 			supported_types.put("jpeg", "image/jpeg");
@@ -41,28 +41,28 @@ public class FileUploadDropAdapter extends ViewerDropAdapter {
 			supported_types.put("bmp", "image/bmp");
 			supported_types.put("tif", "image/tiff");
 			supported_types.put("tiff", "image/tiff");
-			/////// FLASH
+			// ///// FLASH
 			supported_types.put("swf", "application/x-shockwave-flash");
-			/////// MPEG
+			// ///// MPEG
 			supported_types.put("mpe", "video/mpeg");
-            supported_types.put("mpeg", "video/mpeg");
-            supported_types.put("mpg", "video/mpeg");
-            /////// QUICKTIME
+			supported_types.put("mpeg", "video/mpeg");
+			supported_types.put("mpg", "video/mpeg");
+			// ///// QUICKTIME
 			supported_types.put("mov", "video/quicktime");
 			supported_types.put("qt", "video/quicktime");
-			/////// MP3
+			// ///// MP3
 			supported_types.put("mp2", "audio/mpeg");
 			supported_types.put("mpga", "audio/mpeg");
 			supported_types.put("mp3 ", "audio/mpeg");
-			/////// TEXT
+			// ///// TEXT
 			supported_types.put("txt", "text/plain");
 			supported_types.put("xml", "text/xml");
 			supported_types.put("htm", "text/html");
 			supported_types.put("html", "text/html");
 			supported_types.put("xhtml", "text/html");
-			/////// PDF
+			// ///// PDF
 			supported_types.put("pdf", "application/pdf");
-			/////// ZIP FILES
+			// ///// ZIP FILES
 			supported_types.put("bz2", "application/x-bzip2");
 			supported_types.put("gz", "application/x-gzip");
 			supported_types.put("zip", "application/zip");
@@ -78,15 +78,16 @@ public class FileUploadDropAdapter extends ViewerDropAdapter {
 			String[] files = (String[]) data;
 			IWeblog weblog = new MetaWeblog();
 			String clipboard_contents = "";
-			
+
 			int flen = files.length;
 			for (int x = 0; x < flen; x++) {
 				try {
-					//see if it's a supported mime type, and cancel the
-					//drop if it is not.
+					// see if it's a supported mime type, and cancel the
+					// drop if it is not.
 					String mime = guessMimeType(files[x]);
-					if(mime == null) return false;
-					
+					if (mime == null)
+						return false;
+
 					File f = new File(files[x]);
 					FileInputStream fis = new FileInputStream(f);
 					BufferedInputStream bis = new BufferedInputStream(fis);
@@ -98,15 +99,17 @@ public class FileUploadDropAdapter extends ViewerDropAdapter {
 					while ((b = bis.read()) != -1) {
 						baos.write(b);
 					}
-
+					
 					Base64Data s = new Base64Data();
 					s.setStorage(Base64.encodeBytes(baos.toByteArray()));
 
-					String url = weblog.postMedia(guessFileName(files[x]), guessMimeType(files[x]), s);
+					String url = weblog.postMedia(guessFileName(files[x]),
+							guessMimeType(files[x]), s);
 
 					clipboard_contents += url;
-					
-					if(flen > 1) clipboard_contents += "\n";
+
+					if (flen > 1)
+						clipboard_contents += "\n";
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -116,7 +119,8 @@ public class FileUploadDropAdapter extends ViewerDropAdapter {
 			if (!"".equals(clipboard_contents)) {
 				clipboard.clearContents();
 				TextTransfer textTransfer = TextTransfer.getInstance();
-				clipboard.setContents(new Object[] { clipboard_contents }, new Transfer[] { textTransfer });
+				clipboard.setContents(new Object[] { clipboard_contents },
+						new Transfer[] { textTransfer });
 			}
 
 			return true;
@@ -125,9 +129,9 @@ public class FileUploadDropAdapter extends ViewerDropAdapter {
 	}
 
 	private String guessFileName(String fname) {
-		//Fix for windows - file.separator is \ and that breaks the regex
+		// Fix for windows - file.separator is \ and that breaks the regex
 		String fsep = System.getProperty("file.separator");
-		if("\\".equals(fsep)) {
+		if ("\\".equals(fsep)) {
 			fsep = "\\\\";
 		}
 		String[] parts = fname.split(fsep);
@@ -136,7 +140,8 @@ public class FileUploadDropAdapter extends ViewerDropAdapter {
 
 	private String guessMimeType(String fname) {
 		String[] parts = fname.split("\\.");
-		String mime = supported_types.get( parts[(parts.length - 1)].toLowerCase() );
+		String mime = supported_types.get(parts[(parts.length - 1)]
+				.toLowerCase());
 		return mime;
 	}
 

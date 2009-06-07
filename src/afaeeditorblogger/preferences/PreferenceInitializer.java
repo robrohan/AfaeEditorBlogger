@@ -19,7 +19,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		
 		store.setDefault(PreferenceConstants.P_BLOGGING_URL, "http://[your_site]/xmlrpc.php");
-		store.setDefault(PreferenceConstants.P_BLOGGING_ID, "");
+		store.setDefault(PreferenceConstants.P_BLOGGING_ID, "My Blog");
 		store.setDefault(PreferenceConstants.P_BLOGGING_USERNAME, "admin");
 		store.setDefault(PreferenceConstants.P_BLOGGING_PASSWORD, "");
 		

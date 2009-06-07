@@ -112,7 +112,7 @@
             id="AfaeEditorBlogger.views.FileUploadView"
             name="File Uploader"/>
    </extension>
-   <extension
+   <!-- <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
             targetID="org.eclipse.ui.resourcePerspective">
@@ -123,6 +123,6 @@
                id="afaeeditorblogger.views.SampleView">
          </view>
       </perspectiveExtension>
-   </extension>
+   </extension> -->
 
 </plugin>

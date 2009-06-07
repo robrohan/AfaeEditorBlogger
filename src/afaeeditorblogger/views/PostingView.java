@@ -110,6 +110,7 @@ public class PostingView extends ViewPart implements IPropertyChangeListener {
 				for(int i=0; i<objsize; i++) {
 					ArrayList<Object> row = new ArrayList<Object>();
 					
+					@SuppressWarnings("unchecked")
 					HashMap h = (HashMap)postings[i];
 					
 					row.add((String)h.get(IWeblog.ITEM_ID));

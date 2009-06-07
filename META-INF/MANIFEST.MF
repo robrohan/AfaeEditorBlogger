@@ -2,17 +2,16 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: AfaeEditorBlogger
 Bundle-SymbolicName: AfaeEditorBlogger; singleton:=true
-Bundle-Version: 0.1.0
+Bundle-Version: 0.1.1
 Bundle-Activator: afaeeditorblogger.Activator
 Bundle-Vendor: Rob Rohan
-Bundle-Localization: plugin
+Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.ui.ide,
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.jface.text
-Eclipse-LazyStart: true
 Bundle-ClassPath: lib/xmlrpc-common-3.0.jar,
  lib/xmlrpc-client-3.0.jar,
  lib/ws-commons-util-1.0.1.jar,
@@ -26,3 +25,4 @@ Export-Package: afaeeditorblogger.wizards,
  afaeeditorblogger.internal,
  afaeeditorblogger.actions,
  afaeeditorblogger
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

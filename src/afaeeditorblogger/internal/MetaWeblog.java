@@ -48,7 +48,8 @@ public class MetaWeblog implements IWeblog {
 	protected static HashMap<String, String> translations = new HashMap<String, String>();
 	protected static HashMap<String, String> translations_reverse = new HashMap<String, String>();
 	static {
-		//tables used to translate header inforamtion to and from client readable -> blog setting
+		//tables used to translate header information to and from client 
+		// readable -> blog setting
 		translations.put("UserID", "userid");
 		translations.put(ITEM_DATE, "dateCreated");
 		translations.put(ITEM_ID, "postid");
@@ -63,7 +64,8 @@ public class MetaWeblog implements IWeblog {
 		translations.put("Keywords", "mt_keywords");
 		translations.put(ITEM_CATEGORIES, "categories");
 		
-		//kinda lame, but the translation the other way...
+		//kind of lame, and there must be a better way, but these 
+		// are the translation the other way...
 		translations_reverse.put("userid","UserID");
 		translations_reverse.put("dateCreated", ITEM_DATE);
 		translations_reverse.put("postid", ITEM_ID);
@@ -97,7 +99,7 @@ public class MetaWeblog implements IWeblog {
 	void notifyPost() {
 		// Code to Invoke Web Service Periodically, and retrieve information		
 		// Post Invocation, inform listeners
-		for (Iterator iter = myListeners.iterator(); iter.hasNext();) {
+		for (Iterator<IPropertyChangeListener> iter = myListeners.iterator(); iter.hasNext();) {
 			IPropertyChangeListener element = (IPropertyChangeListener) iter.next();
 			element.propertyChange(
 				new PropertyChangeEvent(this, "BlogPostingEvent" , null , "")
@@ -124,6 +126,7 @@ public class MetaWeblog implements IWeblog {
 	 */
 	private XmlRpcClient createClient() throws MalformedURLException, XmlRpcException {
 		XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+		
 		config.setServerURL(new URL(store.getString(PreferenceConstants.P_BLOGGING_URL)));
 		config.setEncoding("UTF-8");
 		
@@ -158,7 +161,8 @@ public class MetaWeblog implements IWeblog {
 			};
 		}
 		
-		HashMap posting = (HashMap)client.execute("metaWeblog.getPost", params);
+		@SuppressWarnings("unchecked")
+		HashMap<String, Object> posting = (HashMap<String, Object>)client.execute("metaWeblog.getPost", params);
 		
 		//this should make the posting header information into proper 
 		//afae headers
@@ -178,8 +182,8 @@ public class MetaWeblog implements IWeblog {
 		
 		final IFile file = container.getFile(new Path(filetitle + ".blog"));
 		
-		Set keys = posting.keySet();
-		Iterator i = keys.iterator();
+		Set<String> keys = posting.keySet();
+		Iterator<String> i = keys.iterator();
 		
 		String contents = "";
 		
@@ -208,6 +212,7 @@ public class MetaWeblog implements IWeblog {
 		IDE.openEditor(page, file, true);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Object[] getRecentPosts() throws XmlRpcException, MalformedURLException {
 		Object[] postings = null;
 				
@@ -224,8 +229,8 @@ public class MetaWeblog implements IWeblog {
 		postings = (Object[])client.execute("metaWeblog.getRecentPosts", params);
 		
 		int plen = postings.length;
-		for(int q=0; q<plen; q++){
-			translateHeadersIncoming((HashMap)postings[q]);
+		for(int q=0; q<plen; q++) {
+			translateHeadersIncoming((HashMap<String, Object>)postings[q]);
 		}
 		
 		return postings;
@@ -272,8 +277,8 @@ public class MetaWeblog implements IWeblog {
 			pm.worked(1);
 			
 			//do a check for a title header, if it's not there it's probably not a blog
-			//post and they might have accedently pushed the post button. Ask them
-			//if they want to post it, and dump out if they dont.
+			//post and they might have accidentally pushed the post button. Ask them
+			//if they want to post it, and dump out if they don't.
 			if(!struct.containsKey(translations.get(ITEM_TITLE))) {
 				boolean to_continue = false;
 				
@@ -482,6 +487,7 @@ public class MetaWeblog implements IWeblog {
 	 * Parses a document and gets the blog posting headers and body into the Object.
 	 * the object will contain a hash map of header data [0] and the entire body
 	 * information [1]
+	 * 
 	 * @param doc
 	 * @return Object[] with 0 being a hashmap of headers, and 1 being the posting body
 	 * @throws BadLocationException
@@ -521,8 +527,8 @@ public class MetaWeblog implements IWeblog {
 	 * to the client posting the entry
 	 * @param map
 	 */
-	@SuppressWarnings("unchecked")
-	private void translateHeadersIncoming(HashMap map) {
+	//@SuppressWarnings("unchecked")
+	private void translateHeadersIncoming(HashMap<String, Object> map) {
 		//Set keys = map.keySet();
 		Object[] keys = map.keySet().toArray();
 		//Iterator i = keys.iterator();
@@ -618,31 +624,19 @@ public class MetaWeblog implements IWeblog {
 				map.put(translations.get(name), items);
 			} else {
 				String v = value.trim();
-				//check to see if it's a boolean value
-				/* if(v.toLowerCase() == "true" || v.toLowerCase() == "false") {
-					//Boolean val = Boolean.FALSE;
-					Integer val = new Integer(0);
-					if("true".equals(v.toLowerCase()))
-						//val = Boolean.TRUE;
-						val = new Integer(2);
-					
-					map.put(translations.get(name), val);
-				} else { */
-					//ok not a boolean, try to parse it as an integer and if that
-					//fails just do a string value
-					try {
-						int t;
-						if("0".equals(v)) {
-							map.put(translations.get(name), new Integer(0));
-						} else {
-							t = Integer.parseInt(v);
-							map.put(translations.get(name), new Integer(t));
-						}
-						
-					} catch (Exception e){
-						map.put(translations.get(name), v);
+				//try to parse it as an integer and if that
+				//fails just do a string value
+				try {
+					int t;
+					if("0".equals(v)) {
+						map.put(translations.get(name), new Integer(0));
+					} else {
+						t = Integer.parseInt(v);
+						map.put(translations.get(name), new Integer(t));
 					}
-				//}	
+				} catch (Exception e){
+					map.put(translations.get(name), v);
+				}
 			}
 		} else {
 			map.put(name, value);

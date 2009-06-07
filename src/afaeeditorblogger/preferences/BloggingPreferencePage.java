@@ -27,7 +27,7 @@ public class BloggingPreferencePage
 	public BloggingPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("A demonstration of a preference page implementation");
+		setDescription("This is where you setup the connection information for your Wordpress blog (or other XMLRPC based blog)");
 	}
 	
 	/**
@@ -48,8 +48,8 @@ public class BloggingPreferencePage
 		);
 		addField(new StringFieldEditor(PreferenceConstants.P_STRING, "A &text preference:", getFieldEditorParent())); */
 		
-		addField(new StringFieldEditor(PreferenceConstants.P_BLOGGING_URL, "&URL to Blog RPC:", getFieldEditorParent()));
-		addField(new StringFieldEditor(PreferenceConstants.P_BLOGGING_ID, "&ID of the Blog (often the title):", getFieldEditorParent()));
+		addField(new StringFieldEditor(PreferenceConstants.P_BLOGGING_URL, "&URL to the Blog RPC endpoint:", getFieldEditorParent()));
+		addField(new StringFieldEditor(PreferenceConstants.P_BLOGGING_ID, "&Title of the Blog:", getFieldEditorParent()));
 		addField(new StringFieldEditor(PreferenceConstants.P_BLOGGING_USERNAME, "User &name:", getFieldEditorParent()));
 		
 		StringFieldEditor sfe = new StringFieldEditor(PreferenceConstants.P_BLOGGING_PASSWORD, "&Password:", getFieldEditorParent());
